@@ -6,10 +6,10 @@ import plotly.graph_objects as go
 from datetime import datetime
 import os
 
-from analytics import (
+from data import load_data, clean_dataframe_columns, validate_csv
+from calculations import (
     calculate_yoy_growth,
     calculate_mom_change,
-    load_data,
     get_monthly_sales,
     get_yearly_sales,
     get_daily_sales,
@@ -17,10 +17,8 @@ from analytics import (
     get_region_sales,
     get_top_products,
     get_top_customers,
-    clean_dataframe_columns,
-    validate_csv,
-    render_chart_grid,
 )
+from visualization import render_chart_grid
 
 st.set_page_config(page_title="Sales Dashboard", page_icon="📊", layout="wide")
 

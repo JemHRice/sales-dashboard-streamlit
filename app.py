@@ -491,28 +491,26 @@ if df is not None:
         with col1:
             # Top products
             top_products = get_top_products(filtered_df, n=10)
-            if top_products is not None:
+            if top_products is not None and not top_products.empty:
                 st.write("**Top 10 Products by Sales**")
-                top_products_df = pd.DataFrame(
-                    {
-                        "Product": top_products.index,
-                        "Sales": [f"${x:,.0f}" for x in top_products.values],
-                    }
+                display_df = top_products.copy()
+                display_df.columns = ["Product", "Sales"]
+                display_df["Sales"] = display_df["Sales"].apply(
+                    lambda x: f"${float(x):,.0f}"
                 )
-                st.dataframe(top_products_df, hide_index=True, width="stretch")
+                st.dataframe(display_df, hide_index=True, width="stretch")
 
         with col2:
             # Top customers (if exists)
             top_customers = get_top_customers(filtered_df, n=10)
-            if top_customers is not None:
+            if top_customers is not None and not top_customers.empty:
                 st.write("**Top 10 Customers by Sales**")
-                top_customers_df = pd.DataFrame(
-                    {
-                        "Customer": top_customers.index,
-                        "Sales": [f"${x:,.0f}" for x in top_customers.values],
-                    }
+                display_df = top_customers.copy()
+                display_df.columns = ["Customer", "Sales"]
+                display_df["Sales"] = display_df["Sales"].apply(
+                    lambda x: f"${float(x):,.0f}"
                 )
-                st.dataframe(top_customers_df, hide_index=True, width="stretch")
+                st.dataframe(display_df, hide_index=True, width="stretch")
 
         st.markdown("---")
 

@@ -1,0 +1,33 @@
+﻿# Virtual environments
+sales_venv/
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Streamlit cache
+.streamlit/
+*.streamlit.run
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# CSV uploads (optional - keep sample data)
+# Don't commit large data files
+*.csv.bak
+
+# Environment variables
+.env
+.env.local
+
+# Build artifacts
+dist/
+build/
+*.egg-info/

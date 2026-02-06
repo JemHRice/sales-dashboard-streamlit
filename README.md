@@ -48,15 +48,18 @@ streamlit run app.py
 
 Includes Superstore sample dataset (2015-2016 data) for demonstration.
 
-## Current Architecture
+## Project Structure
 
-`
-sales-dashboard/
- app.py                 # Streamlit UI & orchestration
- analytics.py           # Data loading, validation, calculations, aggregations
- requirements.txt
- Sample - Superstore.csv
-`
+```
+sales-dashboard-streamlit/
+├── app.py                      # Streamlit UI & data orchestration
+├── analytics.py                # Data loading, validation, calculations, aggregations
+├── requirements.txt            # Python dependencies
+├── README.md                   # This file
+├── .gitignore                  # Git ignore rules
+├── Sample - Superstore.csv     # Sample dataset (2015-2016 Superstore data)
+└── sales_venv/                 # Virtual environment (excluded from git)
+```
 
 ## Future Improvements (Roadmap)
 

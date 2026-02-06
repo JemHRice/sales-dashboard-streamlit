@@ -6,10 +6,10 @@ import plotly.graph_objects as go
 from datetime import datetime
 import os
 
-from analytics import (
+from data import load_data, clean_dataframe_columns, validate_csv
+from calculations import (
     calculate_yoy_growth,
     calculate_mom_change,
-    load_data,
     get_monthly_sales,
     get_yearly_sales,
     get_daily_sales,
@@ -17,10 +17,8 @@ from analytics import (
     get_region_sales,
     get_top_products,
     get_top_customers,
-    clean_dataframe_columns,
-    validate_csv,
-    render_chart_grid,
 )
+from visualization import render_chart_grid
 
 st.set_page_config(page_title="Sales Dashboard", page_icon="📊", layout="wide")
 
@@ -493,28 +491,26 @@ if df is not None:
         with col1:
             # Top products
             top_products = get_top_products(filtered_df, n=10)
-            if top_products is not None:
+            if top_products is not None and not top_products.empty:
                 st.write("**Top 10 Products by Sales**")
-                top_products_df = pd.DataFrame(
-                    {
-                        "Product": top_products.index,
-                        "Sales": [f"${x:,.0f}" for x in top_products.values],
-                    }
+                display_df = top_products.copy()
+                display_df.columns = ["Product", "Sales"]
+                display_df["Sales"] = display_df["Sales"].apply(
+                    lambda x: f"${float(x):,.0f}"
                 )
-                st.dataframe(top_products_df, hide_index=True, width="stretch")
+                st.dataframe(display_df, hide_index=True, width="stretch")
 
         with col2:
             # Top customers (if exists)
             top_customers = get_top_customers(filtered_df, n=10)
-            if top_customers is not None:
+            if top_customers is not None and not top_customers.empty:
                 st.write("**Top 10 Customers by Sales**")
-                top_customers_df = pd.DataFrame(
-                    {
-                        "Customer": top_customers.index,
-                        "Sales": [f"${x:,.0f}" for x in top_customers.values],
-                    }
+                display_df = top_customers.copy()
+                display_df.columns = ["Customer", "Sales"]
+                display_df["Sales"] = display_df["Sales"].apply(
+                    lambda x: f"${float(x):,.0f}"
                 )
-                st.dataframe(top_customers_df, hide_index=True, width="stretch")
+                st.dataframe(display_df, hide_index=True, width="stretch")
 
         st.markdown("---")
 

@@ -2,6 +2,12 @@
 
 A professional Streamlit sales analytics dashboard for portfolio demonstration.
 
+## 🚀 Live Demo
+
+**[View Live Dashboard](https://sales-dashboard-app-apqgm8pdigxzwfgqoytteg.streamlit.app/)**
+
+Try it now - upload your own CSV file or use the sample Superstore dataset!
+
 ## Features
 
 - **CSV Upload & Validation**: Multi-delimiter support (comma, semicolon, tab, pipe), multi-encoding (UTF-8, Latin-1)

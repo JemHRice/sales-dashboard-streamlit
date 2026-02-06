@@ -61,7 +61,6 @@ Includes Superstore sample dataset (2015-2016 data) for demonstration.
 ```
 sales-dashboard-streamlit/
 ├── app.py                           # Streamlit UI & data orchestration
-├── analytics.py                     # Legacy (deprecated - functionality moved to modules)
 ├── requirements.txt                 # Python dependencies
 ├── README.md                        # This file
 ├── .gitignore                       # Git ignore rules

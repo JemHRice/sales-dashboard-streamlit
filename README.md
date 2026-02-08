@@ -8,6 +8,20 @@ A professional Streamlit sales analytics dashboard for portfolio demonstration.
 
 Try it now - upload your own CSV file or use the sample Superstore dataset!
 
+## 📸 Screenshots
+
+### Home Screen
+![Dashboard Home Screen](sales-dashboard-steramlit-home-screen.png)
+*Upload your CSV file or use the sample Superstore dataset with comprehensive format support*
+
+### Sales Analytics & Trends
+![Sales Graphs](sales-dashboard-steramlit-first-graphs.png)
+*Interactive visualizations including yearly trends, monthly patterns, and category breakdowns*
+
+### Detailed Performance Metrics
+![Sales Detail Graphs](sales-dashboard-steramlit-sales-graphs.png)
+*Regional performance, top products, and customer analysis with dynamic filtering*
+
 ## Features
 
 - **CSV Upload & Validation**: Multi-delimiter support (comma, semicolon, tab, pipe), multi-encoding (Latin-1, ISO-8859-1, CP1252, UTF-8) with automatic detection

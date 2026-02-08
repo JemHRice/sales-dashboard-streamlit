@@ -18,6 +18,9 @@ def clean_dataframe_columns(df):
     Returns:
         tuple: (cleaned DataFrame, bool indicating if date column was found)
     """
+    # Create a copy to avoid modifying the original
+    df = df.copy()
+
     # Strip whitespace from column names
     df.columns = df.columns.str.strip()
 
@@ -48,7 +51,8 @@ def parse_csv_file(file_path, encoding="utf-8", sep=","):
         DataFrame or None if parsing fails
     """
     try:
-        df = pd.read_csv(file_path, encoding=encoding, sep=sep)
+        # Use engine='python' for better encoding handling
+        df = pd.read_csv(file_path, encoding=encoding, sep=sep, engine="python")
         if len(df.columns) > 1 and len(df) > 0:
             return df
     except Exception:
@@ -73,26 +77,22 @@ def load_data(file_path):
     """
     # Delimiters to try in order of likelihood
     delimiters = [",", ";", "\t", "|"]
+    # Encodings to try (latin-1 first as it's more permissive)
+    encodings = ["latin-1", "iso-8859-1", "cp1252", "utf-8", "utf-8-sig"]
+
     df = None
     successful_delimiter = None
-    delimiter_errors = []
+    successful_encoding = None
 
     for delimiter in delimiters:
-        try:
-            # Try UTF-8 first
-            try:
-                df = parse_csv_file(file_path, encoding="utf-8", sep=delimiter)
-            except Exception:
-                # Fall back to latin-1 if UTF-8 fails
-                df = parse_csv_file(file_path, encoding="latin-1", sep=delimiter)
-
-            # Check if we got a valid dataframe
+        for encoding in encodings:
+            df = parse_csv_file(file_path, encoding=encoding, sep=delimiter)
             if df is not None:
                 successful_delimiter = delimiter
+                successful_encoding = encoding
                 break
-        except Exception as e:
-            delimiter_errors.append(f"Delimiter '{repr(delimiter)}': {str(e)[:50]}")
-            continue
+        if df is not None:
+            break
 
     if df is None or len(df) == 0:
         error_msg = "Failed to parse CSV file. "

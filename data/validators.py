@@ -35,19 +35,18 @@ def validate_sales_column(df):
     Args:
         df: DataFrame to validate
 
-    Raises:
-        DataValidationError: If Sales column is not numeric
+    Returns:
+        tuple: (bool: is_valid, str: message)
     """
     if "Sales" not in df.columns:
-        raise DataValidationError("'Sales' column not found")
+        return False, "'Sales' column not found"
 
     try:
         df["Sales"] = df["Sales"].astype(float)
+        return True, "Valid"
     except (ValueError, TypeError):
         sample_values = df["Sales"].unique()[:5]
-        raise DataValidationError(
-            f"'Sales' column must be numeric. Found: {sample_values}"
-        )
+        return False, f"'Sales' column must be numeric. Found: {sample_values}"
 
 
 def validate_date_column(df):
@@ -57,17 +56,20 @@ def validate_date_column(df):
     Args:
         df: DataFrame to validate
 
-    Raises:
-        DataValidationError: If Order Date cannot be parsed
+    Returns:
+        tuple: (bool: is_valid, str: message)
     """
     if "Order Date" not in df.columns:
-        raise DataValidationError("'Order Date' column not found")
+        return False, "'Order Date' column not found"
 
     # Check if already datetime
     if (
         not hasattr(df["Order Date"].dtype, "kind")
         or df["Order Date"].dtype.kind != "M"
     ):
-        raise DataValidationError(
-            f"'Order Date' column is not datetime format. Type: {df['Order Date'].dtype}"
+        return (
+            False,
+            f"'Order Date' column is not datetime format. Type: {df['Order Date'].dtype}",
         )
+
+    return True, "Valid"

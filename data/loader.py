@@ -150,4 +150,7 @@ def load_data(file_path):
     if not is_valid:
         raise DataLoadError(f"Date column validation failed: {message}")
 
+    # Convert to millisecond precision to ensure Arrow compatibility
+    df["Order Date"] = df["Order Date"].astype("datetime64[ms]")
+
     return df

@@ -19,12 +19,10 @@ def get_monthly_sales(df):
     """
     df_copy = df.copy()
     df_copy["Sales"] = pd.to_numeric(df_copy["Sales"], errors="coerce")
-    monthly_sales = (
-        df_copy.groupby(df_copy["Order Date"].dt.to_period("M"))["Sales"]
-        .sum()
-        .reset_index()
-    )
-    monthly_sales["Order Date"] = monthly_sales["Order Date"].astype(str)
+    # Convert to year-month strings to avoid Arrow serialization issues
+    df_copy["YearMonth"] = df_copy["Order Date"].dt.strftime("%Y-%m")
+    monthly_sales = df_copy.groupby("YearMonth")["Sales"].sum().reset_index()
+    monthly_sales.columns = ["Order Date", "Sales"]
     return monthly_sales
 
 
@@ -62,8 +60,9 @@ def get_daily_sales(df):
     """
     df_copy = df.copy()
     df_copy["Sales"] = pd.to_numeric(df_copy["Sales"], errors="coerce")
-    daily = df_copy.groupby(df_copy["Order Date"].dt.date)["Sales"].sum().reset_index()
-    daily.columns = ["Date", "Sales"]
+    # Convert to date strings to avoid Arrow serialization issues
+    df_copy["Date"] = df_copy["Order Date"].dt.strftime("%Y-%m-%d")
+    daily = df_copy.groupby("Date")["Sales"].sum().reset_index()
 
     return daily
 

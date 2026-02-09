@@ -41,11 +41,19 @@ Upload your own CSV file or use the sample Superstore dataset to explore the das
 
 ## Installation
 
-`bash
+**Production Setup:**
+```bash
 python -m venv sales_venv
 .\sales_venv\Scripts\activate
 pip install -r requirements.txt
-`
+```
+
+**Development Setup (includes testing tools):**
+```bash
+python -m venv sales_venv
+.\sales_venv\Scripts\activate
+pip install -r dev-requirements.txt
+```
 
 ## Running the App
 
@@ -98,12 +106,16 @@ Includes Superstore sample dataset (2015-2016 data) for demonstration.
 ```
 sales-dashboard-streamlit/
 ├── app.py                           # Streamlit UI & data orchestration
-├── requirements.txt                 # Python dependencies
+├── requirements.txt                 # Production dependencies
+├── dev-requirements.txt             # Development & testing dependencies
 ├── README.md                        # This file
 ├── .gitignore                       # Git ignore rules
 ├── pytest.ini                       # Pytest configuration
 ├── .coveragerc                      # Coverage configuration
 ├── Sample - Superstore.csv          # Sample dataset (2015-2016 Superstore data)
+│
+├── .streamlit/                      # Streamlit Cloud configuration
+│   └── config.toml                  # Streamlit theme & display settings
 │
 ├── data/                            # Data loading & validation module
 │   ├── __init__.py

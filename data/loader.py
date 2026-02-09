@@ -60,7 +60,7 @@ def parse_csv_file(file_path, encoding="utf-8", sep=","):
     return None
 
 
-@st.cache_data
+@st.cache_resource
 def load_data(file_path):
     """
     Load and cache CSV data with comprehensive error handling.

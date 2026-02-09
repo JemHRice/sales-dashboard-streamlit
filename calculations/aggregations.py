@@ -6,7 +6,7 @@ import streamlit as st
 import pandas as pd
 
 
-@st.cache_data
+@st.cache_resource
 def get_monthly_sales(df):
     """
     Aggregate sales by month.
@@ -26,7 +26,7 @@ def get_monthly_sales(df):
     return monthly_sales
 
 
-@st.cache_data
+@st.cache_resource
 def get_yearly_sales(df):
     """
     Aggregate sales by year.
@@ -47,7 +47,7 @@ def get_yearly_sales(df):
     return yearly
 
 
-@st.cache_data
+@st.cache_resource
 def get_daily_sales(df):
     """
     Aggregate sales by day.
@@ -67,7 +67,7 @@ def get_daily_sales(df):
     return daily
 
 
-@st.cache_data
+@st.cache_resource
 def get_category_sales(df):
     """
     Aggregate sales by product category.
@@ -89,7 +89,7 @@ def get_category_sales(df):
     return category
 
 
-@st.cache_data
+@st.cache_resource
 def get_region_sales(df):
     """
     Aggregate sales by region.
@@ -111,7 +111,7 @@ def get_region_sales(df):
     return region
 
 
-@st.cache_data
+@st.cache_resource
 def get_top_products(df, n=10):
     """
     Get top N products by sales.
@@ -135,7 +135,7 @@ def get_top_products(df, n=10):
     return top_products
 
 
-@st.cache_data
+@st.cache_resource
 def get_top_customers(df, n=10):
     """
     Get top N customers by sales.

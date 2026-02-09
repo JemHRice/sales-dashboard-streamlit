@@ -11,3 +11,5 @@ toolbarMode = "viewer"
 
 [logger]
 level = "info"
+[dataFrameSerialization]
+enable_unsafe_pickle_serialization = true

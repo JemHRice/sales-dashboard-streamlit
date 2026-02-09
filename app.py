@@ -201,8 +201,6 @@ if uploaded_file:
                         )
                         df = None
                     else:
-                        # Convert to millisecond precision for Arrow compatibility
-                        df["Order Date"] = df["Order Date"].astype("datetime64[ms]")
                         # Validate that Sales column is numeric
                         try:
                             df["Sales"] = pd.to_numeric(df["Sales"], errors="coerce")

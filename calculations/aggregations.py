@@ -119,6 +119,8 @@ def get_top_products(df, n=10):
         return pd.DataFrame({"Product Name": [], "Sales": []})
 
     df_copy = df.copy()
+    # Ensure Sales column is numeric
+    df_copy["Sales"] = pd.to_numeric(df_copy["Sales"], errors="coerce")
     top_products = df_copy.groupby("Product Name")["Sales"].sum().reset_index()
     top_products = top_products.sort_values("Sales", ascending=False).head(n)
 
@@ -141,6 +143,8 @@ def get_top_customers(df, n=10):
         return pd.DataFrame({"Customer Name": [], "Sales": []})
 
     df_copy = df.copy()
+    # Ensure Sales column is numeric
+    df_copy["Sales"] = pd.to_numeric(df_copy["Sales"], errors="coerce")
     top_customers = df_copy.groupby("Customer Name")["Sales"].sum().reset_index()
     top_customers = top_customers.sort_values("Sales", ascending=False).head(n)
 

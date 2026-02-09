@@ -18,8 +18,10 @@ def calculate_yoy_growth(df, current_year, previous_year, metric_col="Sales"):
     Returns:
         float: YoY growth percentage
     """
-    current = df[df["Order Date"].dt.year == current_year][metric_col].sum()
-    previous = df[df["Order Date"].dt.year == previous_year][metric_col].sum()
+    df_copy = df.copy()
+    df_copy[metric_col] = pd.to_numeric(df_copy[metric_col], errors="coerce")
+    current = df_copy[df_copy["Order Date"].dt.year == current_year][metric_col].sum()
+    previous = df_copy[df_copy["Order Date"].dt.year == previous_year][metric_col].sum()
     if previous == 0:
         return 0
     return ((current - previous) / previous) * 100
@@ -38,13 +40,15 @@ def calculate_mom_change(df, current_month, previous_month, metric_col="Sales"):
     Returns:
         float: MoM change percentage
     """
-    current = df[
-        (df["Order Date"].dt.year == current_month[0])
-        & (df["Order Date"].dt.month == current_month[1])
+    df_copy = df.copy()
+    df_copy[metric_col] = pd.to_numeric(df_copy[metric_col], errors="coerce")
+    current = df_copy[
+        (df_copy["Order Date"].dt.year == current_month[0])
+        & (df_copy["Order Date"].dt.month == current_month[1])
     ][metric_col].sum()
-    previous = df[
-        (df["Order Date"].dt.year == previous_month[0])
-        & (df["Order Date"].dt.month == previous_month[1])
+    previous = df_copy[
+        (df_copy["Order Date"].dt.year == previous_month[0])
+        & (df_copy["Order Date"].dt.month == previous_month[1])
     ][metric_col].sum()
     if previous == 0:
         return 0

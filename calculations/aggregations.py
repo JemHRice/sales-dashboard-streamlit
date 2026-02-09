@@ -17,8 +17,12 @@ def get_monthly_sales(df):
     Returns:
         DataFrame: Aggregated by month with Period strings and Sales
     """
+    df_copy = df.copy()
+    df_copy["Sales"] = pd.to_numeric(df_copy["Sales"], errors="coerce")
     monthly_sales = (
-        df.groupby(df["Order Date"].dt.to_period("M"))["Sales"].sum().reset_index()
+        df_copy.groupby(df_copy["Order Date"].dt.to_period("M"))["Sales"]
+        .sum()
+        .reset_index()
     )
     monthly_sales["Order Date"] = monthly_sales["Order Date"].astype(str)
     return monthly_sales
@@ -36,8 +40,10 @@ def get_yearly_sales(df):
         DataFrame: Aggregated by year with columns [Year, Sales]
     """
     df_copy = df.copy()
-    df_copy["Year"] = df_copy["Order Date"].dt.year
+    df_copy["Sales"] = pd.to_numeric(df_copy["Sales"], errors="coerce")
+    df_copy["Year"] = df_copy["Order Date"].dt.year.astype(int)
     yearly = df_copy.groupby("Year")["Sales"].sum().reset_index()
+    yearly["Year"] = yearly["Year"].astype(int)
     yearly = yearly.sort_values("Year")
 
     return yearly
@@ -55,6 +61,7 @@ def get_daily_sales(df):
         DataFrame: Aggregated by day with columns [Date, Sales]
     """
     df_copy = df.copy()
+    df_copy["Sales"] = pd.to_numeric(df_copy["Sales"], errors="coerce")
     daily = df_copy.groupby(df_copy["Order Date"].dt.date)["Sales"].sum().reset_index()
     daily.columns = ["Date", "Sales"]
 
@@ -76,6 +83,7 @@ def get_category_sales(df):
         return pd.DataFrame({"Category": [], "Sales": []})
 
     df_copy = df.copy()
+    df_copy["Sales"] = pd.to_numeric(df_copy["Sales"], errors="coerce")
     category = df_copy.groupby("Category")["Sales"].sum().reset_index()
     category = category.sort_values("Sales", ascending=False)
 
@@ -97,6 +105,7 @@ def get_region_sales(df):
         return pd.DataFrame({"Region": [], "Sales": []})
 
     df_copy = df.copy()
+    df_copy["Sales"] = pd.to_numeric(df_copy["Sales"], errors="coerce")
     region = df_copy.groupby("Region")["Sales"].sum().reset_index()
     region = region.sort_values("Sales", ascending=False)
 

@@ -187,6 +187,7 @@ sales-dashboard-streamlit/
   - ✅ Fixed validators to return (bool, str) tuples for better error handling
   - ✅ Sample CSV file (Latin-1 encoding) now loads successfully
   - ⚠️ 5 tests with non-critical edge cases (YoY precision, chart naming, aggregation edge cases)
+  - ⚠️ Top Performers section bug to be fixed
   
 - [ ] **Phase 3**: Advanced features
   - Database integration (PostgreSQL)

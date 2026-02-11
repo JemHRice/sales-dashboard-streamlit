@@ -38,10 +38,17 @@ def get_yearly_sales(df):
         DataFrame: Aggregated by year with columns [Year, Sales]
     """
     df_copy = df.copy()
+
+    # Ensure Order Date is datetime (in case of caching/serialization issues)
+    if not pd.api.types.is_datetime64_any_dtype(df_copy["Order Date"]):
+        df_copy["Order Date"] = pd.to_datetime(df_copy["Order Date"])
+
     df_copy["Sales"] = pd.to_numeric(df_copy["Sales"], errors="coerce")
     df_copy["Year"] = df_copy["Order Date"].dt.year.astype(int)
     yearly = df_copy.groupby("Year")["Sales"].sum().reset_index()
-    yearly["Year"] = yearly["Year"].astype(int)
+
+    # Ensure Year column is integer (handles string values from caching)
+    yearly["Year"] = pd.to_numeric(yearly["Year"], errors="coerce").astype(int)
     yearly = yearly.sort_values("Year")
 
     return yearly
@@ -126,6 +133,9 @@ def get_top_products(df, n=10):
     if "Product Name" not in df.columns:
         return pd.DataFrame({"Product Name": [], "Sales": []})
 
+    # Ensure n is an integer (handles string values from caching/serialization)
+    n = int(n) if n is not None else 10
+
     df_copy = df.copy()
     # Ensure Sales column is numeric
     df_copy["Sales"] = pd.to_numeric(df_copy["Sales"], errors="coerce")
@@ -149,6 +159,9 @@ def get_top_customers(df, n=10):
     """
     if "Customer Name" not in df.columns:
         return pd.DataFrame({"Customer Name": [], "Sales": []})
+
+    # Ensure n is an integer (handles string values from caching/serialization)
+    n = int(n) if n is not None else 10
 
     df_copy = df.copy()
     # Ensure Sales column is numeric

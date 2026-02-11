@@ -524,7 +524,9 @@ if df is not None:
 
         # Summary statistics
         with st.expander("📊 Summary Statistics"):
-            st.write(filtered_df.describe())
+            # Only show numeric columns to avoid Arrow serialization issues with datetime
+            numeric_df = filtered_df.select_dtypes(include=["number"]).describe()
+            st.write(numeric_df)
 
         # Raw data
         with st.expander("📋 View Raw Data"):

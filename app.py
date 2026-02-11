@@ -486,31 +486,39 @@ if df is not None:
 
         # Top performers
         st.subheader("🏆 Top Performers")
-        col1, col2 = st.columns(2)
+        try:
+            col1, col2 = st.columns(2)
 
-        with col1:
-            # Top products
-            top_products = get_top_products(filtered_df, n=10)
-            if top_products is not None and not top_products.empty:
-                st.write("**Top 10 Products by Sales**")
-                display_df = top_products.copy()
-                display_df.columns = ["Product", "Sales"]
-                display_df["Sales"] = display_df["Sales"].apply(
-                    lambda x: f"${float(x):,.0f}"
-                )
-                st.dataframe(display_df, hide_index=True, width="stretch")
+            with col1:
+                # Top products
+                top_products = get_top_products(filtered_df, n=10)
+                if top_products is not None and not top_products.empty:
+                    st.write("**Top 10 Products by Sales**")
+                    display_df = top_products.copy()
+                    display_df.columns = ["Product", "Sales"]
+                    display_df["Sales"] = display_df["Sales"].apply(
+                        lambda x: f"${float(x):,.0f}"
+                    )
+                    st.dataframe(display_df, hide_index=True, width="stretch")
 
-        with col2:
-            # Top customers (if exists)
-            top_customers = get_top_customers(filtered_df, n=10)
-            if top_customers is not None and not top_customers.empty:
-                st.write("**Top 10 Customers by Sales**")
-                display_df = top_customers.copy()
-                display_df.columns = ["Customer", "Sales"]
-                display_df["Sales"] = display_df["Sales"].apply(
-                    lambda x: f"${float(x):,.0f}"
-                )
-                st.dataframe(display_df, hide_index=True, width="stretch")
+            with col2:
+                # Top customers (if exists)
+                top_customers = get_top_customers(filtered_df, n=10)
+                if top_customers is not None and not top_customers.empty:
+                    st.write("**Top 10 Customers by Sales**")
+                    display_df = top_customers.copy()
+                    display_df.columns = ["Customer", "Sales"]
+                    display_df["Sales"] = display_df["Sales"].apply(
+                        lambda x: f"${float(x):,.0f}"
+                    )
+                    st.dataframe(display_df, hide_index=True, width="stretch")
+        except Exception as e:
+            st.error(
+                f"❌ Error in Top Performers section:\n\n**{type(e).__name__}**: {str(e)}\n\nFull details:\n{repr(e)}"
+            )
+            import traceback
+
+            st.code(traceback.format_exc(), language="python")
 
         st.markdown("---")
 

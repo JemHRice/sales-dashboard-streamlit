@@ -24,9 +24,12 @@ def calculate_yoy_growth(df, current_year, previous_year, metric_col="Sales"):
     if not pd.api.types.is_datetime64_any_dtype(df_copy["Order Date"]):
         df_copy["Order Date"] = pd.to_datetime(df_copy["Order Date"])
 
-    # Ensure year values are integers
-    current_year = int(current_year)
-    previous_year = int(previous_year)
+    # Ensure year values are integers with error handling
+    try:
+        current_year = int(current_year)
+        previous_year = int(previous_year)
+    except (ValueError, TypeError):
+        return 0.0
 
     df_copy[metric_col] = pd.to_numeric(df_copy[metric_col], errors="coerce")
     current = df_copy[df_copy["Order Date"].dt.year == current_year][metric_col].sum()
@@ -55,9 +58,12 @@ def calculate_mom_change(df, current_month, previous_month, metric_col="Sales"):
     if not pd.api.types.is_datetime64_any_dtype(df_copy["Order Date"]):
         df_copy["Order Date"] = pd.to_datetime(df_copy["Order Date"])
 
-    # Ensure month tuple values are integers
-    current_month = (int(current_month[0]), int(current_month[1]))
-    previous_month = (int(previous_month[0]), int(previous_month[1]))
+    # Ensure month tuple values are integers with error handling
+    try:
+        current_month = (int(current_month[0]), int(current_month[1]))
+        previous_month = (int(previous_month[0]), int(previous_month[1]))
+    except (ValueError, TypeError, IndexError):
+        return 0.0
 
     df_copy[metric_col] = pd.to_numeric(df_copy[metric_col], errors="coerce")
     current = df_copy[

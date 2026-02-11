@@ -133,14 +133,25 @@ def get_top_products(df, n=10):
     if "Product Name" not in df.columns:
         return pd.DataFrame({"Product Name": [], "Sales": []})
 
-    # Ensure n is an integer (handles string values from caching/serialization)
-    n = int(n) if n is not None else 10
+    # Ensure n is a valid integer (handles string values from caching/serialization)
+    try:
+        n = int(n) if n is not None else 10
+        # Validate n is positive
+        if n <= 0:
+            n = 10
+    except (ValueError, TypeError):
+        n = 10
 
     df_copy = df.copy()
     # Ensure Sales column is numeric
     df_copy["Sales"] = pd.to_numeric(df_copy["Sales"], errors="coerce")
     top_products = df_copy.groupby("Product Name")["Sales"].sum().reset_index()
-    top_products = top_products.sort_values("Sales", ascending=False).head(n)
+
+    # Only call .head() if we have results
+    if len(top_products) > 0:
+        top_products = top_products.sort_values("Sales", ascending=False).head(n)
+    else:
+        top_products = pd.DataFrame({"Product Name": [], "Sales": []})
 
     return top_products
 
@@ -160,13 +171,24 @@ def get_top_customers(df, n=10):
     if "Customer Name" not in df.columns:
         return pd.DataFrame({"Customer Name": [], "Sales": []})
 
-    # Ensure n is an integer (handles string values from caching/serialization)
-    n = int(n) if n is not None else 10
+    # Ensure n is a valid integer (handles string values from caching/serialization)
+    try:
+        n = int(n) if n is not None else 10
+        # Validate n is positive
+        if n <= 0:
+            n = 10
+    except (ValueError, TypeError):
+        n = 10
 
     df_copy = df.copy()
     # Ensure Sales column is numeric
     df_copy["Sales"] = pd.to_numeric(df_copy["Sales"], errors="coerce")
     top_customers = df_copy.groupby("Customer Name")["Sales"].sum().reset_index()
-    top_customers = top_customers.sort_values("Sales", ascending=False).head(n)
+
+    # Only call .head() if we have results
+    if len(top_customers) > 0:
+        top_customers = top_customers.sort_values("Sales", ascending=False).head(n)
+    else:
+        top_customers = pd.DataFrame({"Customer Name": [], "Sales": []})
 
     return top_customers

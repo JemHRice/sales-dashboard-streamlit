@@ -499,7 +499,7 @@ if df is not None:
                     display_df["Sales"] = display_df["Sales"].apply(
                         lambda x: f"${float(x):,.0f}"
                     )
-                    st.dataframe(display_df, hide_index=True, width="stretch")
+                    st.dataframe(display_df, hide_index=True)
 
             with col2:
                 # Top customers (if exists)
@@ -511,7 +511,7 @@ if df is not None:
                     display_df["Sales"] = display_df["Sales"].apply(
                         lambda x: f"${float(x):,.0f}"
                     )
-                    st.dataframe(display_df, hide_index=True, width="stretch")
+                    st.dataframe(display_df, hide_index=True)
         except Exception as e:
             st.error(
                 f"❌ Error in Top Performers section:\n\n**{type(e).__name__}**: {str(e)}\n\nFull details:\n{repr(e)}"
@@ -533,7 +533,7 @@ if df is not None:
             # Create display dataframe with Order Date as string to avoid Arrow serialization issues
             display_df = filtered_df.copy()
             display_df["Order Date"] = display_df["Order Date"].dt.strftime("%Y-%m-%d")
-            st.dataframe(display_df, width="stretch")
+            st.dataframe(display_df)
 
             # Download button
             csv = filtered_df.to_csv(index=False).encode("utf-8")
